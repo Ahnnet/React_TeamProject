@@ -14,7 +14,7 @@ padding: 20px;
 text-align: center;
 `;
 
-const baseUrl = "";
+const baseUrl = "http://localhost:8083";
 
 function handleClick(e){
     window.location.href="/register-page"
@@ -45,7 +45,7 @@ const Register = (props) => {
         console.log("TRY submit to server!!");
         e.preventDefault();
         await axios
-        .post(baseUrl+"/api/member",{
+        .post(baseUrl+"/api/user",{
             name:username,
             email:email,
             password:password,
