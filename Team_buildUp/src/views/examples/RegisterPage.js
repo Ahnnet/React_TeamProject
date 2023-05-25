@@ -125,7 +125,7 @@ function RegisterPage() {
                   // onClick={(e) => e.preventDefault()
                     onClick={(e) => handleSubmit()}
                   >
-                    LOGIN {/* 이걸 Login button 으로 바꾸기 */}
+                    LOGIN {/* 이걸 Login button 으로 바꾸기  */}
                   </Button>
                 </Form>
                 <div className="forgot">
