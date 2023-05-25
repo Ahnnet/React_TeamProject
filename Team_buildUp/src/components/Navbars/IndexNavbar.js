@@ -96,7 +96,7 @@ function IndexNavbar() {
                 data-placement="bottom"
                 target="_blank"
                 title="Follow us on Twitter"
-                href="/register-page"
+                href="/register"
               >
                 {/* className="fa fa-twitter"  */}
                 <i />

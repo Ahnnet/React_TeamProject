@@ -38,7 +38,7 @@ import {
 } from "reactstrap";
 
 // core components
-
+import { useState } from "react";
 import Slider from "nouislider";
 import SectionButtons from "views/index-sections/SectionButtons";
 import SectionCarousel from "views/index-sections/SectionCarousel.js";
@@ -50,6 +50,13 @@ import ReactDatetime from "react-datetime";
 
 function ProfilePage() {
   const [activeTab, setActiveTab] = React.useState("1");
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
+  const [username, setUsername] = useState("");
+
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
+  };
 
   const toggle = (tab) => {
     if (activeTab !== tab) {
@@ -72,13 +79,6 @@ function ProfilePage() {
       <div className="section profile-content">
         <Container>
           <div className="owner">
-            <div className="avatar">
-              {/* <img
-                alt="..."
-                className="img-circle img-no-padding img-responsive"
-                src={require("assets/img/faces/joe-gardner-2.jpg")}
-              /> */}
-            </div>
             <div className="name">
               <h2 className="title">
                 Register Drone <br />
@@ -88,15 +88,9 @@ function ProfilePage() {
 
             <SectionCarousel />
           </div>
-          {/* <Row>
-            <Col className="ml-auto mr-auto text-center" md="6">
-              <br />
-               <Button className="btn-round" color="default" outline>
-                <i className="fa fa-cog" /> Settings
-              </Button> 
-            </Col>
-          </Row> */}
+
           <br />
+
           <div className="nav-tabs-navigation">
             <div className="nav-tabs-wrapper">
               <Nav role="tablist" tabs>
@@ -140,7 +134,7 @@ function ProfilePage() {
                         </Col>
                         <Col className="ml-auto mr-auto" lg="7" md="4" xs="4">
                           <h6>
-                            Flume <br />
+                            OUROBOROS_SC14 <br />
                           </h6>
                         </Col>
                         <Col className="ml-auto mr-auto" lg="3" md="4" xs="4">
@@ -169,7 +163,7 @@ function ProfilePage() {
                         </Col>
                         <Col lg="7" md="4" xs="4">
                           <h6>
-                            Banks <br />
+                            DIVE_4KSC13 <br />
                           </h6>
                         </Col>
                         <Col lg="3" md="4" xs="4">
@@ -194,7 +188,7 @@ function ProfilePage() {
                         </Col>
                         <Col lg="7" md="4" xs="4">
                           <h6>
-                            Compo <br />
+                            PUPA_MX13SC15 <br />
                           </h6>
                         </Col>
                         <Col lg="3" md="4" xs="4">
@@ -214,7 +208,12 @@ function ProfilePage() {
                       <Row>
                         <Col md="10">
                           <InputGroup>
-                            <Input placeholder="Username" type="text" />
+                            <Input
+                              placeholder="Username"
+                              type="text"
+                              onChange={handleUsernameChange}
+                              value={username}
+                            />
                             <InputGroupAddon addonType="append">
                               <InputGroupText>
                                 <i aria-hidden={true} className="fa fa-group" />
@@ -234,7 +233,11 @@ function ProfilePage() {
                             <InputGroup className="date" id="datetimepicker">
                               <ReactDatetime
                                 inputProps={{
-                                  placeholder: "Choose your time",
+                                  placeholder: "Choose your datetime",
+                                }}
+                                onChange={(value) => {
+                                  setSelectedDate(value.format("YYYY-MM-DD"));
+                                  setSelectedTime(value.format("HH:mm:ss"));
                                 }}
                               />
                               <InputGroupAddon addonType="append">
@@ -262,10 +265,11 @@ function ProfilePage() {
             </TabPane>
 
             <TabPane className="text-center" tabId="2" id="following">
-              <h3 className="text-muted">Not following anyone yet :</h3>
-              <Button className="btn-round" color="warning">
-                Find artists
-              </Button>
+              <div>
+                <p>Date: {selectedDate}</p>
+                <p>Time: {selectedTime}</p>
+                <p>Username: {username}</p>
+              </div>
             </TabPane>
           </TabContent>
         </Container>

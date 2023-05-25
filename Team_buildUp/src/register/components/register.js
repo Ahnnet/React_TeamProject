@@ -60,6 +60,7 @@ const Register = (props) => {
 
     const onSubmit = (e) => {
         console.log("submit clicked!!!")
+        console.log({username})
         console.log({email})
         console.log({password})
         if(password!=confirmPassword){
