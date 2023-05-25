@@ -1,8 +1,10 @@
 .img{
     position: relative;
     background-image: url(../img/header.jpg);                                                               
-    height: 100vh;
+    height: 800px;
+    /* overflow: auto; */
     /* background-size: cover; */
+    background-attachment: fixed;
     
 }
 

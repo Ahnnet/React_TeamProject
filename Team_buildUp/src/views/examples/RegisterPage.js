@@ -24,12 +24,50 @@ import { Button, Card, Form, Input, Container, Row, Col } from "reactstrap";
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import IndexNavbar from "components/Navbars/IndexNavbar";
+import axios from "axios";
+import {useState, useEffect} from "react";
+
+const baseUrl = "";
 
 function handleClick(e){
   window.location.href="/register"
 }
 
+
 function RegisterPage() {
+
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
+  const handleChange_email = (e)=>{
+    e.preventDefault();
+    setEmail(e.target.value);
+  }
+  const handleChange_password = (e)=>{
+    e.preventDefault();
+    setPassword(e.target.value);
+  }
+
+  
+  const handleSubmit = async(e) => {
+    console.log("submit clicked!!!");
+    e.preventDefault();
+    await axios
+    .post(baseUrl +"/api/member",{
+      email:email,
+      password:password,
+    })
+    // console.log(email)
+    // console.log(password)
+
+    .then((response)=>{
+      console.log(response.data)
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
+  }
+
   document.documentElement.classList.remove("nav-open");
   React.useEffect(() => {
     document.body.classList.add("register-page");
@@ -80,12 +118,14 @@ function RegisterPage() {
                 </div>
                 <Form className="register-form">
                   <label>Email</label>
-                  <Input placeholder="Email" type="text" />
+                  <Input value={email} placeholder="Email" type="text" onChange={handleChange_email}/>
                   <label>Password</label>
-                  <Input placeholder="Password" type="password" />
+                  <Input value={password} placeholder="Password" type="password" onChange={handleChange_password} />
                   <Button block className="btn-round" color="danger"
-                  onClick={() => handleClick()}>
-                    Register
+                  // onClick={(e) => e.preventDefault()
+                    onClick={(e) => handleSubmit()}
+                  >
+                    LOGIN {/* 이걸 Login button 으로 바꾸기 */}
                   </Button>
                 </Form>
                 <div className="forgot">
@@ -93,9 +133,9 @@ function RegisterPage() {
                     className="btn-link"
                     color="danger"
                     href="#pablo"
-                    onClick={(e) => e.preventDefault()}
+                    onClick={() => handleClick()}
                   >
-                    Forgot password?
+                    SIGN UP {/* 이걸 register button 으로 바꾸기 */}
                   </Button>
                 </div>
               </Card>
