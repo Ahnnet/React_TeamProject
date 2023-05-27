@@ -6,12 +6,16 @@ import Popup from './Popup';
 import "../../assets/css/register.css"
 import { Button} from "reactstrap";
 import IndexNavbar from "components/Navbars/IndexNavbar";
+import axios from 'axios';
 
 const Layout = styled.div`
 margin-top: 10px;
 padding: 20px;
 text-align: center;
 `;
+
+const baseUrl = "http://localhost:8083";
+
 function handleClick(e){
     window.location.href="/register-page"
 }
@@ -37,7 +41,28 @@ const Register = (props) => {
     const handleOnConfirmPassword = (e) =>{
         dispatch(inputConfirmPassword(e.target.value));
     }
+    const handleSubmit = async(e) => {
+        console.log("TRY submit to server!!");
+        // e.preventDefault();
+        await axios
+        .post(baseUrl+"/api/user",{
+            name:username,
+            email:email,
+            password:password,
+        })
+        .then((response)=>{
+            console.log(response.data);
+        })
+        .catch((error)=>{
+            console.log(error);
+        });
+    }
+
     const onSubmit = (e) => {
+        console.log("submit clicked!!!")
+        console.log({username})
+        console.log({email})
+        console.log({password})
         if(password!=confirmPassword){
             setPopup({
                 open: true,
@@ -47,7 +72,13 @@ const Register = (props) => {
             errConfirmPassword()
             return;
             }
+        // 가입 조건 만족 시
         else{
+            console.log("correct form");
+            // 서버로 data 전송
+            handleSubmit();
+
+
             setPopup({
                 open: true,
                 title: "Welcome!",
@@ -88,7 +119,7 @@ const Register = (props) => {
             <br/>
             <Button className="btn-round" color="danger"
                   onClick={() => onSubmit()}>
-                    Register
+                    SIGN IN
                   </Button>
             <br/><br/>
             </div>
