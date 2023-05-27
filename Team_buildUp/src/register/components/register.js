@@ -43,7 +43,7 @@ const Register = (props) => {
     }
     const handleSubmit = async(e) => {
         console.log("TRY submit to server!!");
-        e.preventDefault();
+        // e.preventDefault();
         await axios
         .post(baseUrl+"/api/user",{
             name:username,
