@@ -60,8 +60,6 @@ function RegisterPage() {
       email:email,
       password:password,
     })
-    // console.log(email)
-    // console.log(password)
 
     .then((response)=>{
       console.log(response.data)
