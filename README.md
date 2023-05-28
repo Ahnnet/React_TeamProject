@@ -1,6 +1,6 @@
 # React_TeamProject
 
-React Project
+Advanced web programming for the first semester of the third grade - FrontEnd Team Project
 
 # How to execute?
 

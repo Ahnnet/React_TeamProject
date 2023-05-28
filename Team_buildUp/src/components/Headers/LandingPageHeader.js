@@ -17,12 +17,12 @@
 
 */
 import React, { useEffect } from "react";
-import "../../assets/css/landing.css"
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { useState } from 'react';
-import Parser from 'html-react-parser';
-import Axios from 'axios';
+import "../../assets/css/landing.css";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { useState } from "react";
+import Parser from "html-react-parser";
+import Axios from "axios";
 
 // reactstrap components
 // import { Button, Container } from "reactstrap";
@@ -46,40 +46,38 @@ function LandingPageHeader() {
     }
   });
   const [movieContent, setMovieContent] = useState({
-    title: '',
-    content: ''
-  })
+    title: "",
+    content: "",
+  });
 
   const [viewContent, setViewContent] = useState([]);
 
-  useEffect(() =>{
-    Axios.get('http://localhost:8082/api/reviews').then((response)=>{
+  useEffect(() => {
+    Axios.get("http://localhost:8082/api/reviews").then((response) => {
       setViewContent(response.data);
-    })
-  },[viewContent])
+    });
+  }, [viewContent]);
 
-  const submitReview = ()=>{
-    Axios.post('http://localhost:8082/api/review', {
+  const submitReview = () => {
+    Axios.post("http://localhost:8082/api/review", {
       title: movieContent.title,
-      content: movieContent.content
-    }).then(()=>{
-      alert('등록 완료!');
-    })
+      content: movieContent.content,
+    }).then(() => {
+      alert("등록 완료!");
+    });
   };
-  
 
-  const getValue = e => {
-    const { name, value } = e.target
+  const getValue = (e) => {
+    const { name, value } = e.target;
     setMovieContent({
       ...movieContent,
-      [name]: value
-    })
+      [name]: value,
+    });
     console.log(movieContent);
   };
 
   return (
     <>
-    
       {/* <div
         className="page-header section-dark"
         style={{
@@ -88,63 +86,70 @@ function LandingPageHeader() {
         }}
       > */}
       <div className="img">
-      <div className="text-center">
-    <br />
-    <br />
-    <br />
-      <h1 className="drone-review"><strong>Drone Review</strong></h1>
-      <div className='movie-container'>
-        {viewContent.map(element=>
-          <div>
-            <h2>{element.title}</h2>
-            <div>
-             {Parser(element.content)}
-            </div>
+        <div className="text-center">
+          <br />
+          <br />
+          <br />
+          <h1 className="drone-review">
+            <strong>Drone Review</strong>
+          </h1>
+          <div className="movie-container">
+            {viewContent.map((element) => (
+              <div>
+                <h2>{element.title}</h2>
+                <div>{Parser(element.content)}</div>
+              </div>
+            ))}
           </div>
-        )}
+
+          <div className="form-wrapper">
+            <input
+              className="title-input"
+              type="text"
+              placeholder="제목"
+              onChange={getValue}
+              name="title"
+            />
+            <CKEditor
+              editor={ClassicEditor}
+              data="리뷰 내용을 입력해주세요!"
+              onReady={(editor) => {
+                // You can store the "editor" and use when it is needed.
+                console.log("Editor is ready to use!", editor);
+              }}
+              onChange={(event, editor) => {
+                const data = editor.getData();
+                console.log({ event, editor, data });
+                setMovieContent({
+                  ...movieContent,
+                  content: data,
+                });
+                console.log(movieContent);
+              }}
+              onBlur={(event, editor) => {
+                console.log("Blur.", editor);
+              }}
+              onFocus={(event, editor) => {
+                console.log("Focus.", editor);
+              }}
+            />
+          </div>
+          <button className="submit-button" onClick={submitReview}>
+            입력
+          </button>
+        </div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+
+        {/* </div> */}
+        {/* <div class="img-cover"></div> */}
       </div>
-      
-      <div className='form-wrapper'>
-        <input className="title-input"
-          type='text'
-          placeholder='제목'
-          onChange={getValue}
-          name='title'
-        />
-        <CKEditor
-          editor={ClassicEditor}
-          data="리뷰 내용을 입력해주세요!"
-          onReady={editor => {
-            // You can store the "editor" and use when it is needed.
-            console.log('Editor is ready to use!', editor);
-          }}
-          onChange={(event, editor) => {
-            const data = editor.getData();
-            console.log({ event, editor, data });
-            setMovieContent({
-              ...movieContent,
-              content: data
-            })
-            console.log(movieContent);
-          }}
-          onBlur={(event, editor) => {
-            console.log('Blur.', editor);
-          }}
-          onFocus={(event, editor) => {
-            console.log('Focus.', editor);
-          }}
-        />
-      </div>
-      <button 
-        className="submit-button" 
-        onClick={submitReview}
-      >입력</button>
-     </div>
-     <br/><br/><br/><br/><br/><br/><br/><br/>
-     
-     {/* </div> */}
-     {/* <div class="img-cover"></div> */}
-     </div>
     </>
   );
 }
