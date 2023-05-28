@@ -54,17 +54,28 @@ function RegisterPage() {
   
   const handleSubmit = async(e) => {
     console.log("submit clicked!!!");
-    e.preventDefault();
+    // e.preventDefault();
     await axios
-    .post(baseUrl +"/api/login",{
-      email:email,
-      password:password,
-    })
-
+    .get(baseUrl +"/api/users")
     .then((response)=>{
-      console.log(response.data)
+      console.log(response.data[0].email)
+
+      var flag = false;
+      for(let i=0; i<response.data.length; i++){
+        console.log(i)
+          if(response.data[i].email == email && response.data[i].password == password){
+              flag=true;
+              console.log("login")
+              break;
+          }
+          else{
+            console.log("no")
+          }
+      }
+
+
       // login 성공시 -> success popUp 띄우면서, mainPage로 이동
-      if(response.data==true){
+      if(flag==true){
         setPopup({
           open:true,
           title: "Welcome!!",
